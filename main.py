@@ -15,7 +15,7 @@
 # [START gae_python38_app]
 # [START gae_python3_app]
 from flask import Flask, jsonify
-
+import pandas as pd
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
@@ -25,7 +25,7 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
     """Return a friendly HTTP greeting."""
-    return 'Hello World! GCP App Engine'
+    return 'Hello World! GCP App Engine - AI Apps'
 
 @app.route('/name/<value>')
 def name(value):
@@ -41,6 +41,20 @@ def bob():
 def test():
     value = {"value" : "test"}
     return jsonify(value)
+
+@app.route('/html')
+def html():
+    """Return custom HTML"""
+    return """
+    <title>This is a Hello World Page </title>
+    <H1> Hello </H1>
+    <H2> <b> World! </b></H2>
+    """
+
+@app.route('/pandas')
+def pandas_sugar():
+    df = pd.read_csv("https://raw.githubusercontent.com/noahgift/sugar/master/data/education_sugar_cdc_2003.csv")
+    return jsonify(df.to_dict())
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
